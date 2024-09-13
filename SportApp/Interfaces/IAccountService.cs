@@ -5,7 +5,7 @@ namespace SportApp.Interfaces
     public interface IAccountService
     {
         public Task<LoginResponse> Login();
-        public Task<> Register();
+        public Task Register(RegisterDto registerDto);
 
     }
 }
