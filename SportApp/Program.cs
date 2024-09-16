@@ -19,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 

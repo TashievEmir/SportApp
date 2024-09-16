@@ -12,10 +12,12 @@ namespace SportApp.Services
     {
         private readonly IMapper _mapper;
         private readonly IServiceScopeFactory _scopeFactory;
-        public AccountService(IMapper mapper, IServiceScopeFactory serviceScopeFactory) 
+        private readonly TokenService _tokenService;
+        public AccountService(IMapper mapper, IServiceScopeFactory serviceScopeFactory, TokenService tokenService) 
         {
             _mapper = mapper;
             _scopeFactory = serviceScopeFactory;
+            _tokenService = tokenService;
         }
         public async Task<LoginResponse> Login(LoginDto loginDto)
         {
@@ -38,7 +40,7 @@ namespace SportApp.Services
                 throw new Exception("Incorrect password");
             }
 
-            string token = "";//_tokenService.CreateToken(user);
+            string token = _tokenService.CreateToken(user);
 
             var refreshToken = "";//_tokenService.GenerateRefreshToken();
 
