@@ -15,9 +15,10 @@ namespace SportApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login()
+        public async Task<ActionResult> Login(LoginDto loginDto)
         {
-            return Ok();
+            var response = await _accountService.Login(loginDto);
+            return Ok(response);
         }
 
         [HttpPost]

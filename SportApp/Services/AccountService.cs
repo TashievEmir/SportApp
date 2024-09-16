@@ -4,6 +4,7 @@ using SportApp.Models;
 using SportApp.Entities;
 using BCrypt.Net;
 using SportApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SportApp.Services
 {
@@ -16,9 +17,46 @@ namespace SportApp.Services
             _mapper = mapper;
             _scopeFactory = serviceScopeFactory;
         }
-        public Task<LoginResponse> Login()
+        public async Task<LoginResponse> Login(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            User user = new User();
+
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var _dataContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                user = await _dataContext.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.UserName);
+            }
+
+            if (user is null)
+            {
+                throw new Exception("User not found");
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
+            {
+                throw new Exception("Incorrect password");
+            }
+
+            string token = "";//_tokenService.CreateToken(user);
+
+            var refreshToken = "";//_tokenService.GenerateRefreshToken();
+
+            //_tokenService.SetRefreshToken(refreshToken, user);
+
+            var response = new LoginResponse
+            {
+                UserId = user.Id,
+                LastName = user.LastName,
+                FirstName = user.FirstName,
+                Patronymic = user.Patronymic,
+                Email = user.Email,
+                Token = token,
+                RefreshToken = refreshToken,
+                RoleId = user.RoleId
+            };
+
+            return response;
         }
 
         public async Task RegisterAsync(RegisterDto registerDto)
