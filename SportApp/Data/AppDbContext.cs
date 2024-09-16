@@ -26,6 +26,10 @@ namespace SportApp.Data
                 .HasConversion(v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
             modelBuilder.Entity<User>()
+                .Property(e => e.UpdatedAt)
+                .HasConversion(v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+            modelBuilder.Entity<User>()
                 .HasIndex(x => x.UserName).IsUnique();
         }
     }
