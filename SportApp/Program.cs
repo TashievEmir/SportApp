@@ -1,12 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using SportApp.Data;
+using SportApp.Helpers;
+using SportApp.Interfaces;
+using SportApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -15,7 +17,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("SportApp"));
 });
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+builder.Services.AddScoped<IAccountService, AccountService>();
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -2,6 +2,8 @@
 using SportApp.Interfaces;
 using SportApp.Models;
 using SportApp.Entities;
+using BCrypt.Net;
+using SportApp.Data;
 
 namespace SportApp.Services
 {
@@ -19,16 +21,19 @@ namespace SportApp.Services
             throw new NotImplementedException();
         }
 
-        public Task Register(RegisterDto registerDto)
+        public async Task RegisterAsync(RegisterDto registerDto)
         {
             var user = _mapper.Map<User>(registerDto);
             user.CreatedAt = DateTime.Now;
-
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             using (var scope = _scopeFactory.CreateScope())
             {
+                var _dataContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
+                _dataContext.Users.Add(user);
+                await _dataContext.SaveChangesAsync();
             }
-                throw new NotImplementedException();
+            
         }
     }
 }

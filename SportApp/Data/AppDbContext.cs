@@ -20,6 +20,13 @@ namespace SportApp.Data
                 .HasForeignKey<User>(x => x.RoleId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.CreatedAt)
+                .HasConversion(v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+            modelBuilder.Entity<User>()
+                .HasIndex(x => x.UserName).IsUnique();
         }
     }
 }
