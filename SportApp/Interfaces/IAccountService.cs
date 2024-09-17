@@ -1,4 +1,5 @@
-﻿using SportApp.Models;
+﻿using SportApp.Entities;
+using SportApp.Models;
 
 namespace SportApp.Interfaces
 {
@@ -6,6 +7,7 @@ namespace SportApp.Interfaces
     {
         public Task<LoginResponse> Login(LoginDto loginDto);
         public Task RegisterAsync(RegisterDto registerDto);
+        User GetById(int userId);
 
     }
 }

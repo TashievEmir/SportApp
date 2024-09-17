@@ -30,6 +30,14 @@ namespace SportApp.Data
                 .HasConversion(v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
             modelBuilder.Entity<User>()
+                .Property(e => e.TokenCreatedAt)
+                .HasConversion(v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.TokenExpiresAt)
+                .HasConversion(v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+            modelBuilder.Entity<User>()
                 .HasIndex(x => x.UserName).IsUnique();
         }
     }

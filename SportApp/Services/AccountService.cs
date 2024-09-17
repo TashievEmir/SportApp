@@ -42,9 +42,9 @@ namespace SportApp.Services
 
             string token = _tokenService.CreateToken(user);
 
-            var refreshToken = "";//_tokenService.GenerateRefreshToken();
+            var refreshToken = _tokenService.GenerateRefreshToken();
 
-            //_tokenService.SetRefreshToken(refreshToken, user);
+            _tokenService.SetRefreshToken(refreshToken, user);
 
             var response = new LoginResponse
             {
@@ -74,6 +74,16 @@ namespace SportApp.Services
                 await _dataContext.SaveChangesAsync();
             }
             
+        }
+
+        public User GetById(int userId)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var _dataContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                return _dataContext.Users.FirstOrDefault(x => x.Id == userId);
+            }
         }
     }
 }
