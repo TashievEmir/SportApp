@@ -34,6 +34,8 @@ namespace SportApp.Services
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
+                //issuer: "CodeMaze",
+                //audience: "https://localhost:5001",
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: cred
