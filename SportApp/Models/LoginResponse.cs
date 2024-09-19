@@ -7,7 +7,7 @@
         public string FirstName { get; set; }
         public string Patronymic { get; set; }
         public string Email { get; set; }
-        public long RoleId { get; set; }
+        public string Role { get; set; }
         public string Token {  get; set; }
         public RefreshToken RefreshToken { get; set; }
 

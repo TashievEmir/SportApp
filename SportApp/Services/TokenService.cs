@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using SportApp.Data;
 using SportApp.Entities;
+using SportApp.Enums;
 using SportApp.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -26,8 +27,16 @@ namespace SportApp.Services
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, "Admin")
             };
+
+            if (user.RoleId-1 == (int)(RolesEnum)Enum.Parse(typeof(RolesEnum), "Admin"))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
+            else if (user.RoleId-1 == (int)(RolesEnum)Enum.Parse(typeof(RolesEnum), "User"))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "User"));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtToken:Key").Value));
 

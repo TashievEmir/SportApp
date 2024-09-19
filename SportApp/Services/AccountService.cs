@@ -5,6 +5,7 @@ using SportApp.Entities;
 using BCrypt.Net;
 using SportApp.Data;
 using Microsoft.EntityFrameworkCore;
+using SportApp.Enums;
 
 namespace SportApp.Services
 {
@@ -55,7 +56,7 @@ namespace SportApp.Services
                 Email = user.Email,
                 Token = token,
                 RefreshToken = refreshToken,
-                RoleId = user.RoleId
+                Role = ((RolesEnum)user.RoleId-1).ToString()
             };
 
             return response;

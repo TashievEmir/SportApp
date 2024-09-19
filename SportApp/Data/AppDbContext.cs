@@ -39,6 +39,10 @@ namespace SportApp.Data
 
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.UserName).IsUnique();
+
+            modelBuilder.Entity<User>()
+                .Property(x => x.RefreshToken)
+                .IsRequired(false);
         }
     }
 }
